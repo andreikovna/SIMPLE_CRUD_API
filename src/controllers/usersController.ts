@@ -1,5 +1,6 @@
 import http from 'http';
-import { getAll, getById } from "../models/usersModel";
+import { getAll, getById, createNewUser } from "../models/usersModel";
+import { getPostData } from '../utils';
 
 export async function getUsers(req: http.IncomingMessage, res: http.ServerResponse) {
   try {
@@ -23,6 +24,33 @@ export async function getUserById(req: http.IncomingMessage, res: http.ServerRes
     } else {
       res.writeHead(200, { "Content-Type": "application/json" });
       res.end(JSON.stringify(user));
+    }
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export async function createUser(req: http.IncomingMessage, res: http.ServerResponse) {
+  try {
+    const body = await getPostData(req) as string;
+
+    const { username, age, hobbies } = JSON.parse(body);
+
+    if (!username || !age || !hobbies) {
+      res.writeHead(400, { "Content-Type": "application/json" });
+      res.end(
+        JSON.stringify({ message: "Body doesn't contain required fields" })
+      );
+    } else {
+      const user = {
+        username,
+        age,
+        hobbies,
+      };
+
+      const newUser = await createNewUser(user);
+      res.writeHead(201, { "Content-Type": "application/json" });
+      res.end(JSON.stringify(newUser));
     }
   } catch (error) {
     console.log(error);
