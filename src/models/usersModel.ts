@@ -1,7 +1,7 @@
 import { v4 } from "uuid";
 import { database, TUser } from "../data/users";
 
-const { users } = database;
+let { users } = database;
 
 export function getAll() {
   return new Promise((resolve) => {
@@ -16,10 +16,25 @@ export function getById(id: string) {
   });
 }
 
-export function createNewUser(user: Partial<TUser>) {
+export function createNewUser(user: TUser) {
   return new Promise((resolve) => {
     const newUser = { id: v4(), ...user } as TUser;
-    database.users.push(newUser);
+    users.push(newUser);
     resolve(newUser);
+  });
+}
+
+export function update(id: string, userData: TUser) {
+  return new Promise((resolve) => {
+    const index = users.findIndex((user) => user.id === id);
+    users[index] = { id, ...userData };
+    resolve(users[index]);
+  });
+}
+
+export function deleteUserByID(id: string) {
+  return new Promise<void>((resolve) => {
+    users = users.filter((user) => user.id !== id);
+    resolve();
   });
 }
