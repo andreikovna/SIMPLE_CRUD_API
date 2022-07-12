@@ -4,7 +4,8 @@
     "description": "Node JS task CRUD API",
     "scripts": {
       "start:dev": "npx nodemon ./src/index.ts",
-      "start:prod": "npx webpack && node ./dist/bundle.js"
+      "start:prod": "npx webpack && node ./dist/bundle.js",
+      "start:multi": "npx nodemon ./src/cluster.ts"
     },
     "repository": {
       "type": "git",
