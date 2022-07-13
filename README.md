@@ -1,17 +1,17 @@
 # SIMPLE_CRUD_API
 simple CRUD API using in-memory database underneath
 
-# INSTALLATION
+### INSTALLATION
 1. clone repository
 2. checkout to development branch
 3. run `npm install`
 
-# SCRIPTS
+### SCRIPTS
 1. `npm run start:dev` - run app in development mode
 2. `npm run start:prod` - run app in production mode
 3. `npm run start:multi` - run app with cluster
 
-# REQUESTS
+### REQUESTS
 
 1. `npm run start:dev`
 
