@@ -15,11 +15,10 @@ simple CRUD API using in-memory database underneath
 
 1. `npm run start:dev`
 
-| Method | URL | BODY | Response |
-|-------- |:---------:    |:-----:        | |:-----:        |  
- | **GET** | `http://localhost:4000/api/users` |    | `status 200` and an empty array |
- | **POST** | `http://localhost:4000/api/users` | { "username": "Daria", "age": 33, "hobbies": ["dancing", "reading", "cooking"] } | `status 201` and the user's object with created id |  
- | **GET** | `http://localhost:4000/api/users/:id` ID (that you received earlier) |    | `status 200` and record (user) with **id === userId** if it exists |
+| | Тип значения | Тип ссылки |   
+|-------- |:---------:    |:-----:        |    
+ | Определение | Хранить данные напрямую | Справочные данные |  
+ | Хранение | Стек | Куча |
 
 2. **GET** request `http://localhost:4000/api/users`  
 ===>  
