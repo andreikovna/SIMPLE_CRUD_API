@@ -15,10 +15,10 @@ simple CRUD API using in-memory database underneath
 
 1. `npm run start:dev`
 
-| | Тип значения | Тип ссылки |   
+| Method | URL | Body |   
 |-------- |:---------:    |:-----:        |    
- | Определение | Хранить данные напрямую | Справочные данные |  
- | Хранение | Стек | Куча |
+ | **GET** | `http://localhost:4000/api/users` | |  
+ | **POST** | `http://localhost:4000/api/users` | { "username": "Daria", "age": 33, "hobbies": ["dancing", "reading", "cooking"] } |
 
 2. **GET** request `http://localhost:4000/api/users`  
 ===>  
