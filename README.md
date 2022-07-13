@@ -17,20 +17,10 @@ simple CRUD API using in-memory database underneath
 
 | Method | URL | Body | Response |   
 |-------- |:---------:    |:-----:        |:-----:        |    
- | **GET** | `http://localhost:4000/api/users` | | |  
- | **POST** | `http://localhost:4000/api/users` | { "username": "Daria", "age": 33, "hobbies": ["dancing", "reading", "cooking"] } | |
+ | **GET** | `http://localhost:4000/api/users` | | status 200 and an empty array |  
+ | **POST** | `http://localhost:4000/api/users` | { "username": "Daria", "age": 33, "hobbies": ["dancing", "reading", "cooking"] } | status 201 and the user's object with created id |  
+ | **GET** user by ID (that you received earlier) | `http://localhost:4000/api/users/:id` | | status 200 and record (user) with **id === userId** if it exists | 
 
-2. **GET** request `http://localhost:4000/api/users`  
-===>  
-You'll receive status 200 and an empty array
-
-3. **POST** request `http://localhost:4000/api/users` with body { "username": "Daria", "age": 33, "hobbies": ["dancing", "reading", "cooking"] }  
-===>  
-You'll receive status 201 and the user's object with created id
-
-4. **GET** user by ID (that you received earlier) request `http://localhost:4000/api/users/:id`  
-===>  
-You'll receive status 200 and record (user) with **id === userId** if it exists
 
 5. **PUT** by ID (that you received earlier) request `http://localhost:4000/api/users/:id` with body { "username": "Daria", "age": 23, "hobbies": ["dancing", "reading", "**PROGRAMMING**"] }  
 ===>  
