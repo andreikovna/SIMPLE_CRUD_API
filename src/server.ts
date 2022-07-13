@@ -1,6 +1,7 @@
 import http from 'http';
 import 'dotenv/config';
 import { getUsers, getUserById, createUser, updateUser, deleteUser } from './controllers/usersController';
+import { serverErrorResponse } from './utils';
 
 export const serverStart = () => {
   const host = 'localhost';
@@ -55,9 +56,8 @@ export const serverStart = () => {
         res.writeHead(404, { 'Content-Type': 'application/json' });
         res.end(JSON.stringify({ message: 'Route not found' }));
       }
-    } catch {
-      res.writeHead(500, { 'Content-Type': 'text/plain' });
-      res.end('Server error. Please try again later');
+    } catch (err) {
+      serverErrorResponse(res);
     }
   });
   
