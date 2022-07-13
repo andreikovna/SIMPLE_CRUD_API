@@ -17,23 +17,10 @@ simple CRUD API using in-memory database underneath
 
 | Method | URL | Body | Response |   
 |-------- |:---------:    |:-----:        |:-----:        |    
- | **GET** | `http://localhost:4000/api/users` | | status 200 and an empty array |  
- | **POST** | `http://localhost:4000/api/users` | { "username": "Daria", "age": 33, "hobbies": ["dancing", "reading", "cooking"] } | status 201 and the user's object with created id |  
- | **GET** user by ID (that you received earlier) | `http://localhost:4000/api/users/:id` | | status 200 and record (user) with **id === userId** if it exists | 
-
-
-5. **PUT** by ID (that you received earlier) request `http://localhost:4000/api/users/:id` with body { "username": "Daria", "age": 23, "hobbies": ["dancing", "reading", "**PROGRAMMING**"] }  
-===>  
-You'll receive status 200 and the updated user's object
-
-6. **DELETE** request `http://localhost:4000/api/users/:id`  
-===>  
-You'll receive status 204
-
-7. Requests to non-existing endpoints 
-===>
-server will answer with status code 404
-
-8. Errors on the server side that occur during the processing of a request  
-===>  
-server will answer with status code 500
+ | **GET** | `http://localhost:4000/api/users` | | `status 200` and an empty array |  
+ | **POST** | `http://localhost:4000/api/users` | { "username": "Daria", "age": 33, "hobbies": ["dancing", "reading", "cooking"] } | `status 201` and the user's object with created id |  
+ | **GET** user by ID | `http://localhost:4000/api/users/:id` | | `status 200` and record (user) with **id === userId** if it exists | 
+ | **PUT** by ID | `http://localhost:4000/api/users/:id` | { "username": "Daria", "age": 23, "hobbies": ["dancing", "reading", "**PROGRAMMING**"] } | `status 200` and the updated user's object |  
+ | **DELETE** by ID | `http://localhost:4000/api/users/:id` | | `status 204` and the updated user's object |  
+ | Requests to non-existing endpoints | `http://localhost:4000/api/fubarbar` | | `status 404` |  
+ | Errors on the server side that occur during the processing of a request  | | | `status 500` |
