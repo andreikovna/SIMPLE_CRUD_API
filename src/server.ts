@@ -1,70 +1,70 @@
 import http from 'http';
 import 'dotenv/config';
 import { getUsers, getUserById, createUser, updateUser, deleteUser } from './controllers/usersController';
-import { serverErrorResponse } from './utils';
+import { CONTENT_TYPE, ERRORS, SERVER_RESPONSE, USERS_URL } from './constants';
+import { isValid } from './utils';
 
 export const serverStart = () => {
-  const host = 'localhost';
+  const HOST = 'localhost';
   const PORT = Number(process.env.PORT) || 3000;
-  
-  const server = http.createServer((req, res) => {
+
+  const server = http.createServer(async (req, res) => {
     try {
+      const id = req.url?.split('/')[3];
+
       if (req.url === '/') {
-        res.writeHead(200, { 'Content-Type': 'text/plain' });
-        res.end('Simple CRUD-API');
-      } else if (req.url?.includes('/api/users')) {
+        res.writeHead(200, CONTENT_TYPE);
+        res.end(JSON.stringify({ message: SERVER_RESPONSE }));
+      } else if (req.url === USERS_URL) {
         switch (req.method) {
-          case 'GET': {
-            if (req.url?.split('/')[3]) {
-              const id = req.url?.split('/')[3];
-              getUserById(req, res, id);
-            } else {
-              getUsers(req, res);
-            }
+          case 'GET':
+            await getUsers(req, res);
             break;
-          }
-          case 'POST': {
-            createUser(req, res);
+
+          case 'POST':
+            await createUser(req, res);
             break;
+
+          default:
+            res.writeHead(501, CONTENT_TYPE);
+            res.end(JSON.stringify({ message: ERRORS.METHOD_NOT_SUPPORT }));
+        }
+      } else if (id) {
+        if (isValid(id)) {
+          switch (req.method) {
+            case 'PUT':
+              await updateUser(req, res, id);
+              break;
+
+            case 'DELETE':
+              await deleteUser(req, res, id);
+              break;
+
+            case 'GET':
+              await getUserById(req, res, id);
+              break;
+
+            default:
+              res.writeHead(501, CONTENT_TYPE);
+              res.end(JSON.stringify({ message: ERRORS.METHOD_NOT_SUPPORT }));
           }
-          case 'PUT': {
-            if (req.url?.split('/')[3]) {
-              const id = req.url.split('/')[3];
-              updateUser(req, res, id);
-            } else {
-              res.writeHead(400, { 'Content-Type': 'text/plain' });
-              res.end('Bad request: Enter user ID');
-            }
-            break;
-          }
-          case 'DELETE': {
-            if (req.url?.split('/')[3]) {
-              const id = req.url.split('/')[3];
-              deleteUser(req, res, id);
-            } else {
-              res.writeHead(400, { 'Content-Type': 'text/plain' });
-              res.end('Bad request: Enter user ID');
-            }
-            break;
-          }
-          default: {
-            res.writeHead(501, { 'Content-Type': 'text/plain' });
-            res.end('The server does not support the request method');
-          }
+        } else {
+          res.writeHead(400, CONTENT_TYPE);
+          res.end(JSON.stringify({ message: ERRORS.INVALID_ID }));
         }
       } else {
-        res.writeHead(404, { 'Content-Type': 'application/json' });
-        res.end(JSON.stringify({ message: 'Route not found' }));
+        res.writeHead(404, CONTENT_TYPE);
+        res.end(JSON.stringify({ message: ERRORS.ROUTE_NOT_FOUND }));
       }
     } catch (err) {
-      serverErrorResponse(res);
+      res.writeHead(500, CONTENT_TYPE);
+      res.end(JSON.stringify({ message: ERRORS.SERVER_ERROR }));
     }
   });
-  
-  server.listen(PORT, host, () => {
-    console.log(`Server started ${PORT} 
-  http://${host}:${PORT}`);
+
+  server.listen(PORT, HOST, () => {
+    console.log(`Server started on http://${HOST}:${PORT}`);
   });
 
   return server;
-}
+};

@@ -1,4 +1,9 @@
 import http from 'http';
+import { validate, version } from 'uuid';
+
+export const isValid = (id: string) :boolean => {
+  return validate(id) && version(id) === 4 
+}
 
 export function getPostData(req: http.IncomingMessage) {
   return new Promise((resolve, reject) => {
@@ -17,8 +22,3 @@ export function getPostData(req: http.IncomingMessage) {
     }
   });
 }
-
-export const serverErrorResponse = (res: http.ServerResponse) => {
-  res.writeHead(500, { 'Content-Type': 'text/plain' });
-  res.end('Server error. Please try again later');
-};
