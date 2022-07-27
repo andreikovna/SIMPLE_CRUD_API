@@ -1,8 +1,8 @@
 import http from 'http';
 import 'dotenv/config';
 import { getUsers, getUserById, createUser, updateUser, deleteUser } from './controllers/usersController';
-import { CONTENT_TYPE, ERRORS, SERVER_RESPONSE, USERS_URL } from './constants';
-import { isValid } from './utils';
+import { ERRORS, SERVER_RESPONSE, USERS_URL } from './constants';
+import { isValid, response } from './utils';
 
 export const serverStart = () => {
   const HOST = 'localhost';
@@ -13,8 +13,7 @@ export const serverStart = () => {
       const id = req.url?.split('/')[3];
 
       if (req.url === '/') {
-        res.writeHead(200, CONTENT_TYPE);
-        res.end(JSON.stringify({ message: SERVER_RESPONSE }));
+        response(res, 200, {message: SERVER_RESPONSE});
       } else if (req.url === USERS_URL) {
         switch (req.method) {
           case 'GET':
@@ -26,8 +25,7 @@ export const serverStart = () => {
             break;
 
           default:
-            res.writeHead(501, CONTENT_TYPE);
-            res.end(JSON.stringify({ message: ERRORS.METHOD_NOT_SUPPORT }));
+            response(res, 501, {message: ERRORS.METHOD_NOT_SUPPORT});
         }
       } else if (id) {
         if (isValid(id)) {
@@ -45,20 +43,16 @@ export const serverStart = () => {
               break;
 
             default:
-              res.writeHead(501, CONTENT_TYPE);
-              res.end(JSON.stringify({ message: ERRORS.METHOD_NOT_SUPPORT }));
+              response(res, 501, {message: ERRORS.METHOD_NOT_SUPPORT});
           }
         } else {
-          res.writeHead(400, CONTENT_TYPE);
-          res.end(JSON.stringify({ message: ERRORS.INVALID_ID }));
+          response(res, 400, {message: ERRORS.INVALID_ID});
         }
       } else {
-        res.writeHead(404, CONTENT_TYPE);
-        res.end(JSON.stringify({ message: ERRORS.ROUTE_NOT_FOUND }));
+        response(res, 404, {message: ERRORS.ROUTE_NOT_FOUND});
       }
     } catch (err) {
-      res.writeHead(500, CONTENT_TYPE);
-      res.end(JSON.stringify({ message: ERRORS.SERVER_ERROR }));
+      response(res, 500, {message: ERRORS.SERVER_ERROR});
     }
   });
 

@@ -1,34 +1,29 @@
 import http from 'http';
-import { CONTENT_TYPE, ERRORS } from '../constants';
-import { TUser } from '../data/users';
+import { ERRORS } from '../constants';
 import { getAll, getById, createNewUser, update, deleteUserByID } from '../models/usersModel';
-import { getPostData } from '../utils';
+import { getPostData, response } from '../utils';
 
 export async function getUsers(req: http.IncomingMessage, res: http.ServerResponse) {
   const users = await getAll();
-  res.writeHead(200, CONTENT_TYPE);
-  res.end(JSON.stringify(users));
+  response(res, 200, users);
 }
 
 export async function getUserById(req: http.IncomingMessage, res: http.ServerResponse, id: string) {
   const user = await getById(id);
   if (user) {
-    res.writeHead(200, CONTENT_TYPE);
-    res.end(JSON.stringify(user));
+    response(res, 200, user);
   } else {
-    res.writeHead(404, CONTENT_TYPE);
-    res.end(JSON.stringify({ message: ERRORS.USER_NOT_FOUND }));
+    response(res, 404, { message: ERRORS.USER_NOT_FOUND });
   }
 }
 
 export async function createUser(req: http.IncomingMessage, res: http.ServerResponse) {
-  const body = (await getPostData(req)) as string;
+  const body = await getPostData(req);
 
   const { username, age, hobbies } = JSON.parse(body);
 
   if (!username || !age || !hobbies) {
-    res.writeHead(400, CONTENT_TYPE);
-    res.end(JSON.stringify({ message: ERRORS.REQUIRED_FIELDS }));
+    response(res, 400, { message: ERRORS.REQUIRED_FIELDS })
   } else {
     const user = {
       username,
@@ -37,15 +32,15 @@ export async function createUser(req: http.IncomingMessage, res: http.ServerResp
     };
 
     const newUser = await createNewUser(user);
-    res.writeHead(201, CONTENT_TYPE);
-    res.end(JSON.stringify(newUser));
+
+    response(res, 201, newUser);
   }
 }
 
 export async function updateUser(req: http.IncomingMessage, res: http.ServerResponse, id: string) {
-  const user = (await getById(id)) as TUser;
+  const user = await getById(id);
   if (user) {
-    const body = (await getPostData(req)) as string;
+    const body = await getPostData(req);
 
     const { username, age, hobbies } = JSON.parse(body);
 
@@ -56,22 +51,18 @@ export async function updateUser(req: http.IncomingMessage, res: http.ServerResp
     };
 
     const updatedUser = await update(id, newUserData);
-    res.writeHead(200, CONTENT_TYPE);
-    res.end(JSON.stringify(updatedUser));
+    response(res, 200, updatedUser)
   } else {
-    res.writeHead(404, CONTENT_TYPE);
-    res.end(JSON.stringify({ message: ERRORS.USER_NOT_FOUND }));
+    response(res, 404, { message: ERRORS.USER_NOT_FOUND })
   }
 }
 
 export async function deleteUser(req: http.IncomingMessage, res: http.ServerResponse, id: string) {
-  const user = (await getById(id)) as TUser;
+  const user = await getById(id);
   if (user) {
     await deleteUserByID(id);
-    res.writeHead(204, CONTENT_TYPE);
-    res.end();
+    response(res, 204);
   } else {
-    res.writeHead(404, CONTENT_TYPE);
-    res.end(JSON.stringify({ message: ERRORS.USER_NOT_FOUND }));
+    response(res, 404, { message: ERRORS.USER_NOT_FOUND })
   }
 }
