@@ -5,11 +5,13 @@ simple CRUD API using in-memory database underneath
 1. clone repository
 2. checkout to development branch
 3. run `npm install`
+4. rename `.env.example` to `.env`
 
 ### SCRIPTS
 1. `npm run start:dev` - run app in development mode
 2. `npm run start:prod` - run app in production mode
-3. `npm run start:multi` - run app with cluster
+3. `npm run start:multi` - run app with cluster (horizontal scaling for application)
+4. `npm run test` - start tests
 
 ### REQUESTS
 
