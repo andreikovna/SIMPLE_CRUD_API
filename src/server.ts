@@ -1,13 +1,11 @@
 import http from 'http';
 import 'dotenv/config';
 import { getUsers, getUserById, createUser, updateUser, deleteUser } from './controllers/usersController';
-import { ERRORS, SERVER_RESPONSE, USERS_URL } from './constants';
+import { ERRORS, SERVER_RESPONSE, USERS_URL, HOST } from './constants';
 import { isValid, response } from './utils';
 
 export const serverStart = () => {
-  const HOST = 'localhost';
-  const PORT = Number(process.env.PORT) || 3000;
-
+  const PORT = Number(process.env.PORT) || 4000;
   const server = http.createServer(async (req, res) => {
     try {
       const id = req.url?.split('/')[3];

@@ -2,6 +2,8 @@ export const CONTENT_TYPE = {'Content-Type': 'application/json'};
 
 export const USERS_URL = '/api/users';
 
+export const HOST = 'localhost';
+
 export enum ERRORS {
     ROUTE_NOT_FOUND = 'Route not found',
     SERVER_ERROR = 'Server error. Please try again later',
