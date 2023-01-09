@@ -1,7 +1,7 @@
 import http from 'http';
-import { ERRORS } from '../constants';
+import { ERRORS } from '../utils/constants';
 import { getAll, getById, createNewUser, update, deleteUserByID } from '../models/usersModel';
-import { getPostData, response } from '../utils';
+import { getPostData, response } from '../utils/utils';
 
 export async function getUsers(req: http.IncomingMessage, res: http.ServerResponse) {
   const users = await getAll();

@@ -1,8 +1,8 @@
 import http from 'http';
 import 'dotenv/config';
 import { getUsers, getUserById, createUser, updateUser, deleteUser } from './controllers/usersController';
-import { ERRORS, SERVER_RESPONSE, USERS_URL, HOST } from './constants';
-import { isValid, response } from './utils';
+import { ERRORS, SERVER_RESPONSE, USERS_URL, HOST } from './utils/constants';
+import { isValid, response } from './utils/utils';
 
 export const serverStart = () => {
   const PORT = Number(process.env.PORT) || 4000;

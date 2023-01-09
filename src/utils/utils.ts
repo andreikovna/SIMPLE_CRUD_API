@@ -1,7 +1,7 @@
 import http from 'http';
 import { validate, version } from 'uuid';
 import { CONTENT_TYPE } from './constants';
-import { TUser } from './data/users';
+import { TUser } from '../data/users';
 
 export const isValid = (id: string): boolean => {
   return validate(id) && version(id) === 4;
