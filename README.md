@@ -21,8 +21,8 @@ simple CRUD API using in-memory database underneath
 |-------- |:---------:    |:-----:        |:-----:        |    
  | **GET** | `http://localhost:4000/api/users` | | `status 200` and an empty array |  
  | **POST** | `http://localhost:4000/api/users` | { "username": "Daria", "age": 33, "hobbies": ["dancing", "reading", "cooking"] } | `status 201` and the user's object with created id |  
- | **GET** user by ID | `http://localhost:4000/api/users/:id` | | `status 200` and record (user) with **id === userId** if it exists | 
- | **PUT** by ID | `http://localhost:4000/api/users/:id` | { "username": "Daria", "age": 23, "hobbies": ["dancing", "reading", "**PROGRAMMING**"] } | `status 200` and the updated user's object |  
- | **DELETE** by ID | `http://localhost:4000/api/users/:id` | | `status 204` |  
+ | **GET** user by ID | `http://localhost:4000/api/users/id` | | `status 200` and record (user) with **id === userId** if it exists | 
+ | **PUT** by ID | `http://localhost:4000/api/users/id` | { "username": "Daria", "age": 23, "hobbies": ["dancing", "reading", "**PROGRAMMING**"] } | `status 200` and the updated user's object |  
+ | **DELETE** by ID | `http://localhost:4000/api/users/id` | | `status 204` |  
  | Requests to non-existing endpoints | `http://localhost:4000/api/fubarbar` | | `status 404` |  
  | Errors on the server side that occur during the processing of a request  | | | `status 500` |
