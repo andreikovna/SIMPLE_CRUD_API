@@ -110,6 +110,19 @@ describe('Second scenario', () => {
 });
 
 describe('Third scenario: testing bad requests', () => {
+  it('POST api/users with invalid fields (hobbies is number array) expects error', async () => {
+    const newUserRequest = {
+      username: 'NewUser',
+      age: 33,
+      hobbies: [2, 3],
+    };
+
+    const response = await request(app).post('/api/users').send(newUserRequest);
+
+    expect(response.statusCode).toBe(400);
+    expect(JSON.parse(response.text).message).toBe(ERRORS.INVALID_BODY_FORMAT);
+  });
+
   it('POST api/users with missing fields expects error', async () => {
     const newUserRequest = {
       username: 'NewUser',

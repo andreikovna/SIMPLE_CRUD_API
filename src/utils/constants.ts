@@ -11,6 +11,7 @@ export enum ERRORS {
     USER_NOT_FOUND = 'User Not Found',
     METHOD_NOT_SUPPORT = 'The server does not support the request method',
     REQUIRED_FIELDS = `Body doesn't contain required fields`, 
+    INVALID_BODY_FORMAT = `Username should be string, age - number, hobbies - string array`, 
   }
 
   export const SERVER_RESPONSE = 'Simple CRUD-API';

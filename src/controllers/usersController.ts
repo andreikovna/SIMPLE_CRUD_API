@@ -22,8 +22,15 @@ export async function createUser(req: http.IncomingMessage, res: http.ServerResp
 
   const { username, age, hobbies } = JSON.parse(body);
 
-  if (!username || !age || !hobbies) {
-    response(res, 400, { message: ERRORS.REQUIRED_FIELDS })
+  const hobbiesIsArray = Array.isArray(hobbies);
+  const hobbiesIsStringArray =  hobbiesIsArray ? hobbies.every((item) => typeof item === 'string') : false;
+  const userNameIsString = typeof username === 'string'
+  const ageIsNumber = typeof age === 'number'
+
+  if (!username || !age || !hobbies ) {
+    response(res, 400, { message: ERRORS.REQUIRED_FIELDS });
+  } else if (!hobbiesIsArray || !hobbiesIsStringArray || !userNameIsString || !ageIsNumber) {
+    response(res, 400, { message: ERRORS.INVALID_BODY_FORMAT });
   } else {
     const user = {
       username,
@@ -51,9 +58,9 @@ export async function updateUser(req: http.IncomingMessage, res: http.ServerResp
     };
 
     const updatedUser = await update(id, newUserData);
-    response(res, 200, updatedUser)
+    response(res, 200, updatedUser);
   } else {
-    response(res, 404, { message: ERRORS.USER_NOT_FOUND })
+    response(res, 404, { message: ERRORS.USER_NOT_FOUND });
   }
 }
 
@@ -63,6 +70,6 @@ export async function deleteUser(req: http.IncomingMessage, res: http.ServerResp
     await deleteUserByID(id);
     response(res, 204);
   } else {
-    response(res, 404, { message: ERRORS.USER_NOT_FOUND })
+    response(res, 404, { message: ERRORS.USER_NOT_FOUND });
   }
 }
