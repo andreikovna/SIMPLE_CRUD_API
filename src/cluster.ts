@@ -6,10 +6,9 @@ const PORT = Number(process.env.PORT) || 4000;
 
 if (cluster.isPrimary) {
   const cpusCount = os.cpus().length;
-  console.log(`CPUs: ${cpusCount}`);
   console.log(`Master started. Pid: ${process.pid}`);
-  serverStart();
-  for (let i = 1; i <= cpusCount; i++) {
+  console.log(`Starting ${cpusCount} forks`);
+  for (let i = 0; i < cpusCount; i++) {
     const newPort = PORT + i;
     cluster.fork({ PORT: newPort });
   }
@@ -17,6 +16,7 @@ if (cluster.isPrimary) {
     console.log(`worker ${worker.process.pid} died`);
   });
 } else if (cluster.isWorker) {
+  const id = cluster.worker?.id;
   serverStart();
-  console.log(`Worker ${process.pid} started`);
+  console.log(`Worker ${id} started ${process.pid}`);
 }

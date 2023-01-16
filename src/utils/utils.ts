@@ -25,12 +25,16 @@ export function getPostData(req: http.IncomingMessage) {
   });
 }
 
-export function response(res: http.ServerResponse, code: number, message?: {message: string} | TUser | TUser[]) {
-  res.writeHead(code, CONTENT_TYPE);
-  if(message) {
+export function response(
+  res: http.ServerResponse,
+  code: number,
+  message?: { message: string } | TUser | TUser[],
+) {
+  res.setHeader('Work', process.pid);
+  res.writeHead(code, CONTENT_TYPE); 
+  if (message) {
     res.end(JSON.stringify(message));
   } else {
     res.end();
   }
-  
 }
